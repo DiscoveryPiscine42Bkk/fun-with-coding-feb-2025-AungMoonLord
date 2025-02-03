@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explode this Balloon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #balloon {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="balloon"></div>
+
+    <script>
+        const colors = ['red', 'green', 'blue'];
+        let currentSize = 200;
+        let colorIndex = 0;
+        const maxSize = 415;
+        const minSize = 200;
+
+        // Function to change the color
+        function changeColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            $("#balloon").css("background-color", colors[colorIndex]);
+        }
+
+        // Function to grow the balloon
+        function growBalloon() {
+            if (currentSize >= maxSize) {
+                currentSize = 200;
+            } else {
+                // Explode the balloon and reset to original size
+                currentSize += 10;
+            }
+            $("#balloon").css({
+                "width": currentSize + "px",
+                "height": currentSize + "px"
+            });
+            changeColor();
+        }
+
+        // Function to shrink the balloon when mouse leaves
+        function shrinkBalloon() {
+            if (currentSize > minSize) {
+                currentSize -= 5;
+            }
+            $("#balloon").css({
+                "width": currentSize + "px",
+                "height": currentSize + "px"
+            });
+            colorIndex = (colorIndex - 1 + colors.length) % colors.length;
+            $("#balloon").css("background-color", colors[colorIndex]);
+        }
+
+        $(document).ready(function() {
+            $("#balloon").on('click', growBalloon);
+            $("#balloon").on('mouseleave', shrinkBalloon);
+        });
+    </script>
+</body>
+</html>
